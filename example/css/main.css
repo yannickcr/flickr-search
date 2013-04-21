@@ -57,6 +57,7 @@ table {
  * !Layout
  * ================================*/
 body {
+	overflow-y: scroll;
 	text-align: center;
 }
 
@@ -84,16 +85,25 @@ body {
 	width: 25%;
 }
 
+.search-form button {
+	border: 1px solid #CCC;
+	font-size: 1.4em;
+	padding: .45em;
+}
+
 /* ================================
  * !Loader
  * ================================*/
 .loader {
 	-webkit-animation-duration: 2s;
+	-moz-animation-duration   : 2s;
+	animation-duration        : 2s;
 	-webkit-animation-iteration-count: infinite;
+	-moz-animation-iteration-count   : infinite;
+	animation-iteration-count        : infinite;
 	-webkit-animation-name: loader;
-	-moz-animation-duration: 2s;
-	-moz-animation-iteration-count: infinite;
-	-moz-animation-name: loader;
+	-moz-animation-name   : loader;
+	animation-name        : loader;
 	background: url(../img/loader.png) no-repeat 50% 50%;
 	display: none;
 	height: 200px;
@@ -178,10 +188,6 @@ body {
 /* ================================
  * !List
  * ================================*/
-.list {
-	text-align: left;
-}
-
 .card {
 	display: inline-block;
 	position: relative;
@@ -192,39 +198,15 @@ body {
 	vertical-align: middle;
 }
 
-.card .front, .card .back {
+.card .front {
 	display: inline-block;
-	-webkit-backface-visibility: hidden;
-	backface-visibility        : hidden;
 	-webkit-transition: -webkit-transform .4s ease-in-out;
 	transition        :         transform .4s ease-in-out;
 }
 
-.card .front {
-	position: relative;
-	z-index: 1;
-}
-
-.card .back {
-	background: #DDD url(../img/placeholder.png) no-repeat 50% 50%;
-	bottom: 0;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-	-webkit-transform: perspective(700px) rotateY(180deg);
-	transform        : perspective(700px) rotateY(180deg);
-}
-
 .card.flipped .front {
-	-webkit-transform: perspective(700px) rotateY(-180deg);
-	transform        : perspective(700px) rotateY(-180deg);
-}
-
-.card.flipped .back {
-	-webkit-transform: perspective(700px) rotateY(0);
-	transform        : perspective(700px) rotateY(0);
-	z-index: 2;
+	-webkit-transform: perspective(700px) scale(0);
+	transform        : perspective(700px) scale(0);
 }
 
 /* ================================

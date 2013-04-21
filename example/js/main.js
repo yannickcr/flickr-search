@@ -7,10 +7,12 @@
 		'	<a class="front">' +
 		'		<img class="photo" width="150" height="150" />' +
 		'	</a>' +
-		//'	<div class="back"></div>' +
 		'</li>'
 	;
 	tpl = tpl.firstChild;
+
+	// Init variables
+	var nextPage, hasScrollRequest = false;
 
 	// Inialize the Flickr API
 	var flickr = new Flickr({
@@ -21,15 +23,15 @@
 	 * Define functions
 	 */
 
-	// Empty the results list
+	// "Empty" the results list
 	var emptyResults = function() {
 		Array.prototype.slice.call(document.querySelectorAll('.card')).forEach(function(card) {
 			card.classList.add('flipped');
 		});
 	};
 
-	// Fill the results list
-	var fillResults = function(err, data) {
+	// Replace the content of the list
+	var replaceResults = function(err, data) {
 		if (err) throw new Error(err.message);
 
 		// Remove the loader
@@ -69,11 +71,35 @@
 		});
 	};
 
+	// Append the new results at the end of the list
+	var appendResults = function(err, data) {
+		if (err) throw new Error(err.message);
+
+		hasScrollRequest = false;
+
+		var items = document.createDocumentFragment();
+
+		data.photos.photo.forEach(function(photo, i) {
+			var item = tpl.cloneNode(true);
+
+			// Update the item / Fill the template
+			item.querySelector('.front').setAttribute('href', 'http://www.flickr.com/photos/' + photo.owner + '/' + photo.id);
+			item.querySelector('.photo').setAttribute('src', (photo.url_q || photo.url_t) + '?ts=' + (+new Date()));
+			item.querySelector('.photo').setAttribute('alt', photo.title);
+			item.querySelector('.photo').setAttribute('title', photo.title);
+
+			items.appendChild(item);
+		});
+
+		// Append the new cards to the list
+		document.querySelector('.list').appendChild(items);
+	};
+
 	// Take a random image from the list and display it in background
 	var displayCover = function(err, data) {
 		if (err) throw new Error(err.message);
 
-		var i = Math.floor(Math.random() * 100);
+		var i = Math.floor(Math.random() * 50);
 
 		var img = document.createElement('img');
 		img.onload = function() {
@@ -94,10 +120,11 @@
 		emptyResults();
 
 		document.querySelector('.loader').classList.add('active');
+		nextPage = 2;
 
 		flickr.search({
 			text: document.getElementById('search-form-q').value
-		}, fillResults);
+		}, replaceResults);
 
 	}, true);
 
@@ -105,6 +132,20 @@
 	document.querySelector('.list').addEventListener('load', function(e) {
 		var card = e.target.parentNode.parentNode;
 		card.classList.remove('flipped');
+	}, true);
+
+	// Infinite scroll
+	window.addEventListener('scroll', function(e) {
+		var fromBottom = document.body.offsetHeight - window.innerHeight - window.scrollY;
+		if (hasScrollRequest || fromBottom > 700) return;
+
+		hasScrollRequest = true;
+
+		flickr.search({
+			text: document.getElementById('search-form-q').value,
+			page: ++nextPage
+		}, appendResults);
+
 	}, true);
 
 	// Load the cover image
