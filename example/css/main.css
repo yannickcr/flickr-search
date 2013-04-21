@@ -1,0 +1,134 @@
+/* ================================
+ * !Reset styles
+ * Based on Eric Meyer's reset ( http://meyerweb.com/eric/tools/css/reset/ )
+ * ================================*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin:0;
+	padding:0;
+	border:0;
+	font-size:100%;
+	font:inherit;
+	vertical-align:baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display:block;
+}
+
+body {
+	line-height:1;
+}
+
+ol, ul {
+	list-style:none;
+}
+
+blockquote, q {
+	quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content:'';
+	content:none;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+/* ================================
+ * !Layout
+ * ================================*/
+body {
+	text-align: center;
+}
+
+/* ================================
+ * !Header
+ * ================================*/
+
+.header {
+	padding: 2em 0;
+	background: #F8F8F8;
+	border-bottom: 1px solid #E4E4E4;
+}
+
+/* ================================
+ * !Search form
+ * ================================*/
+
+.search-form {
+	margin: 2em 0;
+}
+
+.search-form input {
+	border: 1px solid #CCC;
+	font-size: 1.4em;
+	padding: .5em;
+	width: 25%;
+}
+
+/* ================================
+ * !List
+ * ================================*/
+
+.card {
+	display: inline-block;
+	position: relative;
+}
+
+.card .photo {
+	vertical-align: middle;
+}
+
+.card .front, .card .back {
+	display: inline-block;
+	-webkit-backface-visibility: hidden;
+	backface-visibility        : hidden;
+	-webkit-transition: -webkit-transform .4s ease-in-out;
+	transition        :         transform .4s ease-in-out;
+}
+
+.card .front {
+	position: relative;
+	z-index: 1;
+}
+
+.card .back {
+	background: #DDD url(../img/placeholder.png) no-repeat 50% 50%;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	-webkit-transform: perspective(700px) rotateY(180deg);
+	transform        : perspective(700px) rotateY(180deg);
+}
+
+.card.flipped .front {
+	-webkit-transform: perspective(700px) rotateY(-180deg);
+	transform        : perspective(700px) rotateY(-180deg);
+}
+
+.card.flipped .back {
+	-webkit-transform: perspective(700px) rotateY(0);
+	transform        : perspective(700px) rotateY(0);
+	z-index: 2;
+}
