@@ -37,6 +37,8 @@
 		// Remove the loader
 		document.querySelector('.loader').classList.remove('active');
 
+		hasScrollRequest = false;
+
 		var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
 
 		var items = document.createDocumentFragment();
@@ -123,7 +125,7 @@
 		nextPage = 2;
 
 		flickr.search({
-			text: document.getElementById('search-form-q').value
+			text: encodeURIComponent(document.getElementById('search-form-q').value)
 		}, replaceResults);
 
 	}, true);
@@ -142,7 +144,7 @@
 		hasScrollRequest = true;
 
 		flickr.search({
-			text: document.getElementById('search-form-q').value,
+			text: encodeURIComponent(document.getElementById('search-form-q').value),
 			page: ++nextPage
 		}, appendResults);
 
